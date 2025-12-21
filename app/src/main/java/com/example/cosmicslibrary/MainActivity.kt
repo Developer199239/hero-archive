@@ -7,11 +7,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.cosmicslibrary.ui.theme.CosmicsLibraryTheme
+import com.example.cosmicslibrary.view.CharactersBottomNav
+import com.example.cosmicslibrary.view.CollectionScreen
+import com.example.cosmicslibrary.view.Destination
+import com.example.cosmicslibrary.view.LibraryScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +25,36 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CosmicsLibraryTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val navController = rememberNavController()
+                CharactersScaffold(navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CosmicsLibraryTheme {
-        Greeting("Android")
+fun CharactersScaffold(navController: NavHostController) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            CharactersBottomNav(navController = navController)
+        }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Destination.Library.route,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(Destination.Library.route) {
+                LibraryScreen()
+            }
+            composable(Destination.Collection.route) {
+                CollectionScreen()
+            }
+            composable(Destination.CharacterDetails.route) { navBackStackEntry ->
+                val characterId = navBackStackEntry.arguments?.getString("characterId")
+                // CharacterDetailsScreen(characterId)
+            }
+        }
     }
 }
