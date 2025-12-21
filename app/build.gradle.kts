@@ -27,7 +27,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Example usage: Access in code via BuildConfig.API_KEY
+        // Match the property name in apikey.properties
         val apiKey = apikeyProperties.getProperty("COMICVINE_API_KEY") ?: ""
         buildConfigField("String", "COMICVINE_API_KEY", "\"$apiKey\"")
     }
