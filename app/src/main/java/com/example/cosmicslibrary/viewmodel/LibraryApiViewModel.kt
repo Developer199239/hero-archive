@@ -27,7 +27,7 @@ class LibraryApiViewModel @Inject constructor(private val repo: ComicvineApiRepo
         viewModelScope.launch(Dispatchers.IO) {
             queryInput.receiveAsFlow()
                 .filter { validateQuery(it) }
-                .debounce { 1000 }
+                .debounce { 3000 }
                 .collect { repo.query(it) }
         }
     }

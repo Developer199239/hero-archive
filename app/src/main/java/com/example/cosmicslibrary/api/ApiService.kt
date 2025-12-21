@@ -3,6 +3,7 @@ package com.example.cosmicslibrary.api
 import com.example.cosmicslibrary.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,13 +19,19 @@ object ApiService {
         
         val request = original.newBuilder()
             .url(url)
+            .header("User-Agent", "CosmicsLibrary/1.0") // Required by Comicvine API
             .build()
         
         chain.proceed(request)
     }
 
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
     private val client = OkHttpClient.Builder()
         .addInterceptor(clientInterceptor)
+        .addInterceptor(loggingInterceptor)
         .build()
 
     private val retrofit = Retrofit.Builder()
