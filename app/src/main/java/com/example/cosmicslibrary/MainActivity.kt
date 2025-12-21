@@ -18,7 +18,9 @@ import com.example.cosmicslibrary.view.CharactersBottomNav
 import com.example.cosmicslibrary.view.CollectionScreen
 import com.example.cosmicslibrary.view.Destination
 import com.example.cosmicslibrary.view.LibraryScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
