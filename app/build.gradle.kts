@@ -1,9 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+}
+
+val apikeyPropertiesFile = rootProject.file("apikey.properties")
+val apikeyProperties = Properties()
+if (apikeyPropertiesFile.exists()) {
+    apikeyProperties.load(apikeyPropertiesFile.inputStream())
 }
 
 android {
@@ -18,6 +26,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Example usage: Access in code via BuildConfig.API_KEY
+        val apiKey = apikeyProperties.getProperty("COMICVINE_API_KEY") ?: ""
+        buildConfigField("String", "COMICVINE_API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -38,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
