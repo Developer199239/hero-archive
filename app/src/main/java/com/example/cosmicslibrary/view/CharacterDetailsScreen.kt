@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,7 +24,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.cosmicslibrary.model.db.toDbCharacter
@@ -36,8 +35,8 @@ import com.example.cosmicslibrary.viewmodel.LibraryApiViewModel
 fun CharacterDetailsScreen(
     characterId: Int?,
     navController: NavHostController,
-    lvm: LibraryApiViewModel = viewModel(),
-    cvm: CollectionDbViewModel = viewModel()
+    lvm: LibraryApiViewModel = hiltViewModel(),
+    cvm: CollectionDbViewModel = hiltViewModel()
 ) {
     val character by lvm.characterDetails
     val collection by cvm.collection.collectAsState()

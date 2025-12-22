@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.hilt.android)
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     ksp(libs.hilt.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
@@ -84,4 +85,8 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+tasks.named("preBuild") {
+    dependsOn(rootProject.tasks.named("startApi"))
 }
