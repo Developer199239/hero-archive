@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cosmicslibrary.model.db.CollectionDbRepo
 import com.example.cosmicslibrary.model.db.DbCharacter
+import com.example.cosmicslibrary.model.db.DbNote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -14,8 +15,11 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
     val currentCharacter = MutableStateFlow<DbCharacter?>(null)
     val collection = MutableStateFlow<List<DbCharacter>>(listOf())
 
+    val notes = MutableStateFlow<List<DbNote>>(listOf())
+
     init {
         getCollection()
+        getNotes()
     }
 
     private fun getCollection() {
@@ -44,7 +48,27 @@ class CollectionDbViewModel @Inject constructor(private val repo: CollectionDbRe
 
     fun deleteCharacter(character: DbCharacter) {
         viewModelScope.launch {
+            repo.deleteAllNotes(character)
             repo.deleteCharacterFromRepo(character)
+        }
+    }
+
+    private fun getNotes(){
+        viewModelScope.launch {
+            repo.getAllNotes().collect{
+                notes.value = it
+            }
+        }
+    }
+    fun addNote(note: DbNote){
+        viewModelScope.launch {
+            repo.addNoteToRepo(note)
+        }
+    }
+
+    fun deleteNote(note: DbNote){
+        viewModelScope.launch {
+            repo.deleteNoteFromRepo(note)
         }
     }
 }

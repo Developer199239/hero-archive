@@ -9,6 +9,7 @@ import com.example.cosmicslibrary.model.db.CollectionDb
 import com.example.cosmicslibrary.model.db.CollectionDbRepo
 import com.example.cosmicslibrary.model.db.CollectionDbRepoImpl
 import com.example.cosmicslibrary.model.db.Constants.DB
+import com.example.cosmicslibrary.model.db.NoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +36,11 @@ class HiltModule {
 
     @Provides
     @Singleton
-    fun provideCollectionDbRepo(characterDao: CharacterDao): CollectionDbRepo =
-        CollectionDbRepoImpl(characterDao)
+    fun provideNoteDao(collectionDb: CollectionDb) = collectionDb.noteDao()
+
+    @Provides
+    @Singleton
+    fun provideCollectionDbRepo(characterDao: CharacterDao, noteDao: NoteDao): CollectionDbRepo =
+        CollectionDbRepoImpl(characterDao, noteDao)
+
 }
