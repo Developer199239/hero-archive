@@ -10,16 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.cosmicslibrary.presentation.view.CharacterDetailsScreen
+import com.example.cosmicslibrary.presentation.view.CharactersBottomNav
+import com.example.cosmicslibrary.presentation.view.CollectionScreen
+import com.example.cosmicslibrary.presentation.view.Destination
+import com.example.cosmicslibrary.presentation.view.LibraryScreen
+import com.example.cosmicslibrary.presentation.viewmodel.CollectionDbViewModel
+import com.example.cosmicslibrary.presentation.viewmodel.LibraryApiViewModel
 import com.example.cosmicslibrary.ui.theme.CosmicsLibraryTheme
-import com.example.cosmicslibrary.view.CharacterDetailsScreen
-import com.example.cosmicslibrary.view.CharactersBottomNav
-import com.example.cosmicslibrary.view.CollectionScreen
-import com.example.cosmicslibrary.view.Destination
-import com.example.cosmicslibrary.view.LibraryScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +41,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CharactersScaffold(navController: NavHostController) {
+    // Hoisting ViewModels to Activity scope to share data across screens
+    val lvm: LibraryApiViewModel = hiltViewModel()
+    val cvm: CollectionDbViewModel = hiltViewModel()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
@@ -50,16 +57,21 @@ fun CharactersScaffold(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Destination.Library.route) {
-                LibraryScreen(navController = navController)
+                LibraryScreen(navController = navController, vm = lvm)
             }
             composable(Destination.Collection.route) {
-                CollectionScreen(navController = navController)
+                CollectionScreen(navController = navController, cvm = cvm)
             }
             composable(Destination.CharacterDetails.route) { navBackStackEntry ->
                 val characterIdString = navBackStackEntry.arguments?.getString("characterId")
                 Log.d("=====>", "Character ID: $characterIdString")
                 val characterId = characterIdString?.toIntOrNull()
-                CharacterDetailsScreen(characterId = characterId, navController = navController)
+                CharacterDetailsScreen(
+                    characterId = characterId,
+                    navController = navController,
+                    lvm = lvm,
+                    cvm = cvm
+                )
             }
         }
     }
