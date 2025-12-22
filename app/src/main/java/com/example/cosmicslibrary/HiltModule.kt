@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.cosmicslibrary.api.ApiService
 import com.example.cosmicslibrary.api.ComicvineApiRepo
+import com.example.cosmicslibrary.model.connectivity.ConnectivityMonitor
 import com.example.cosmicslibrary.model.db.CharacterDao
 import com.example.cosmicslibrary.model.db.CollectionDb
 import com.example.cosmicslibrary.model.db.CollectionDbRepo
@@ -43,4 +44,8 @@ class HiltModule {
     fun provideCollectionDbRepo(characterDao: CharacterDao, noteDao: NoteDao): CollectionDbRepo =
         CollectionDbRepoImpl(characterDao, noteDao)
 
+    @Provides
+    @Singleton
+    fun provideConnectivityManager(@ApplicationContext context: Context) =
+        ConnectivityMonitor.getInstance(context)
 }

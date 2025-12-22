@@ -1,5 +1,6 @@
 package com.example.cosmicslibrary.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -30,6 +32,7 @@ import coil.compose.AsyncImage
 import com.example.cosmicslibrary.api.NetworkResult
 import com.example.cosmicslibrary.model.Character
 import com.example.cosmicslibrary.model.CharacterApiResponse
+import com.example.cosmicslibrary.model.connectivity.ConnectivityObservable
 import com.example.cosmicslibrary.viewmodel.LibraryApiViewModel
 
 @Composable
@@ -39,6 +42,9 @@ fun LibraryScreen(
 ) {
     val result by vm.result.collectAsState()
     val queryText by vm.queryText.collectAsState()
+    
+    // networkAvailable is a Flow<Status>, so collectAsState gives you the Status object directly
+    val networkStatus by vm.networkAvailable.observe().collectAsState(ConnectivityObservable.Status.Available)
 
     Column(
         modifier = Modifier
@@ -46,6 +52,24 @@ fun LibraryScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        // Use networkStatus directly, not networkStatus.value
+        if (networkStatus == ConnectivityObservable.Status.Unavailable || networkStatus == ConnectivityObservable.Status.Lost) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Red),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Network unavailable",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+
         OutlinedTextField(
             value = queryText,
             onValueChange = vm::onQueryUpdate,

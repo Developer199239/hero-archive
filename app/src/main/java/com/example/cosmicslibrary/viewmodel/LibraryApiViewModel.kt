@@ -3,6 +3,7 @@ package com.example.cosmicslibrary.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cosmicslibrary.api.ComicvineApiRepo
+import com.example.cosmicslibrary.model.connectivity.ConnectivityMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -14,17 +15,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LibraryApiViewModel @Inject constructor(private val repo: ComicvineApiRepo) : ViewModel() {
+class LibraryApiViewModel @Inject constructor(
+    private val repo: ComicvineApiRepo,
+    connectivityMonitor: ConnectivityMonitor
+) : ViewModel() {
     val result = repo.characters
     val queryText = MutableStateFlow("")
     private val queryInput = Channel<String>(Channel.CONFLATED)
 
     val characterDetails = repo.characterDetails
+    val networkAvailable = connectivityMonitor
     init {
-       retrieveCharacters()
+        retrieveCharacters()
     }
 
-    private fun retrieveCharacters(){
+    private fun retrieveCharacters() {
         viewModelScope.launch(Dispatchers.IO) {
             queryInput.receiveAsFlow()
                 .filter { validateQuery(it) }
