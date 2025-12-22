@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.cosmicslibrary.api.NetworkResult
@@ -38,7 +38,7 @@ import com.example.cosmicslibrary.viewmodel.LibraryApiViewModel
 @Composable
 fun LibraryScreen(
     navController: NavController,
-    vm: LibraryApiViewModel = viewModel()
+    vm: LibraryApiViewModel = hiltViewModel()
 ) {
     val result by vm.result.collectAsState()
     val queryText by vm.queryText.collectAsState()
