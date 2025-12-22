@@ -1,101 +1,94 @@
-# 🚀 CosmicsLibrary
+# 🚀 HeroArchive
 
-**CosmicsLibrary** is a modern, feature-rich Android application designed for comic book enthusiasts to explore the vast universe of characters. Built with **Jetpack Compose** and the **Comicvine API**, it allows users to search for their favorite heroes and villains, manage a personal collection, and keep detailed notes—all within a sleek, responsive interface.
+**HeroArchive** is a professional-grade, modern Android application built to showcase the best of Android development practices. Leveraging the **Comicvine API**, it provides a seamless experience for exploring thousands of comic characters, managing a personal database, and recording custom insights—all powered by a cutting-edge tech stack.
 
 [![Kotlin Version](https://img.shields.io/badge/Kotlin-2.0.21-blue.svg)](https://kotlinlang.org)
 [![Compose](https://img.shields.io/badge/Jetpack-Compose-green.svg)](https://developer.android.com/jetpack/compose)
 [![Hilt](https://img.shields.io/badge/Dependency%20Injection-Hilt-orange.svg)](https://dagger.dev/hilt/)
-[![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](https://www.android.com)
+[![Clean Architecture](https://img.shields.io/badge/Architecture-Clean%20%2F%20MVVM-red.svg)](https://developer.android.com/topic/architecture)
 
 ---
 
-## ✨ Features
+## 📸 Preview
 
-- 🔍 **Real-time Character Search**: Search through thousands of characters using the Comicvine API with optimized debounce searching.
-- 📚 **Personal Collection**: Save your favorite characters to a local Room database for offline access.
-- 📝 **Character Notes**: Add, edit, and delete personal notes for every character in your collection.
-- 🌐 **Network Monitoring**: Integrated connectivity observer that alerts users when they are offline.
-- 🎨 **Modern UI/UX**: Fully built with Jetpack Compose following Material 3 design guidelines.
-- 🖼️ **Image Caching**: High-performance image loading and caching using Coil.
+<p align="center">
+  <img src="screenshots/screenshots_1.jpeg" width="30%" alt="Library Search" />
+  <img src="screenshots/screenshots_2.jpeg" width="30%" alt="Character Details" />
+  <img src="screenshots/screenshots_3.jpeg" width="30%" alt="My Collection" />
+  <img src="screenshots/screenshots_4.jpeg" width="30%" alt="My Collection" />
+</p>
+
+---
+
+## ✨ Key Features
+
+- 🔍 **Dynamic Character Discovery**: Search the global Comicvine database with optimized, high-performance API queries.
+- 💾 **Offline-First Collection**: Persist favorite characters locally using **Room Database** for instant access without internet.
+- 📓 **Personalized Annotations**: A custom note-taking system for every hero, allowing users to save personal insights and lore.
+- 📡 **Intelligent Network Monitoring**: A reactive connectivity system that gracefully handles network state changes.
+- ⚡ **Optimized Performance**: Debounced search inputs and efficient state management for a lag-free experience.
+- 🎨 **Material 3 Design**: A beautiful, modern interface built entirely with **Jetpack Compose**.
 
 ---
 
 ## 🛠 Tech Stack & Architecture
 
-This project follows **Clean Architecture** principles and the **MVVM (Model-View-ViewModel)** pattern.
+This project is a demonstration of **industry-standard architecture** and **modern libraries**.
 
-- **Language**: [Kotlin](https://kotlinlang.org/) (2.0.21)
-- **UI Framework**: [Jetpack Compose](https://developer.android.com/jetpack/compose) (Material 3)
-- **Dependency Injection**: [Hilt](https://dagger.dev/hilt/)
-- **Local Database**: [Room](https://developer.android.com/training/data-storage/room) (with KSP)
-- **Networking**: [Retrofit 3](https://square.github.io/retrofit/) & [OkHttp](https://square.github.io/okhttp/)
-- **Image Loading**: [Coil](https://coil-kt.github.io/coil/)
-- **Async Programming**: Kotlin Coroutines & Flow
-- **JSON Parsing**: Gson
-- **Navigation**: Jetpack Compose Navigation
+- **Architecture**: Clean Architecture (Data, Domain, Presentation layers)
+- **UI Framework**: [Jetpack Compose](https://developer.android.com/jetpack/compose) with Material 3
+- **Dependency Injection**: [Hilt](https://dagger.dev/hilt/) (Dagger based)
+- **Local Storage**: [Room Persistence Library](https://developer.android.com/training/data-storage/room) with KSP
+- **Networking**: [Retrofit 3](https://square.github.io/retrofit/) & [OkHttp Logging Interceptor](https://square.github.io/okhttp/)
+- **Image Handling**: [Coil](https://coil-kt.github.io/coil/) (Coroutines-based image loader)
+- **Reactive Programming**: [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) & [Flow](https://kotlinlang.org/docs/flow.html)
+- **Build System**: Kotlin DSL (build.gradle.kts) & Version Catalog (toml)
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Android Studio Ladybug or newer.
-- JDK 17+.
-- A **Comicvine API Key**. You can get one for free at [Comicvine API](https://comicvine.gamespot.com/api/).
+- Android Studio Ladybug+
+- JDK 17+
+- A [Comicvine API Key](https://comicvine.gamespot.com/api/)
 
-### Installation & Setup
+### Installation
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/your-username/cosmicsLibrary.git
+   git clone https://github.com/your-username/hero-archive.git
    ```
 
-2. **API Key Configuration**:
-   Create a file named `apikey.properties` in the root directory of the project and add your key:
+2. **Secure API Configuration**:
+   Create `apikey.properties` in the project root:
    ```properties
    COMICVINE_API_KEY=your_api_key_here
    ```
 
-3. **Build the project**:
-   Sync project with Gradle files and run the `:app` module.
+3. **Launch**:
+   Sync with Gradle and deploy to your device or emulator.
 
 ---
 
-## 📂 Project Structure
+## 📂 Architecture Overview
+
+The project is structured according to **Clean Architecture** principles to ensure testability and scalability:
 
 ```
 com.example.cosmicslibrary
-├── api              # Retrofit interfaces, Repositories, Network state helpers
-├── model            # Data classes (API & DB entities)
-│   └── db           # Room Database, DAOs, and Entity mapping
-├── view             # Compose Screens, Navigation, and UI Components
-├── viewmodel        # Business logic and UI state management
-└── ui.theme         # Material 3 Theme definitions
+├── data           # Remote API sources & Local Room implementations
+├── di             # Hilt Dependency Injection modules
+├── domain         # Business logic, Models & Repository interfaces
+├── presentation   # UI Layer (Compose Screens & ViewModels)
+├── util           # Networking & Connectivity utilities
+└── ui.theme       # Design system and Material 3 definitions
 ```
-
----
-
-## 🛡️ License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you have a feature request or found a bug, please open an issue or submit a pull request.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+This is an open-source project. If you'd like to improve the architecture, add features, or fix bugs, feel free to open a Pull Request!
 
 ---
-
-## 📮 Contact
-
-Developed by **Your Name** - [Your Portfolio/LinkedIn]  
-Project Link: [https://github.com/your-username/cosmicsLibrary](https://github.com/your-username/cosmicsLibrary)
-
-***
